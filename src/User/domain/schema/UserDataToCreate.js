@@ -1,5 +1,6 @@
 import { PropertyValueError } from '../../../utils/domain/errors/PropertyValueError.js'
 import { EmailValueObject } from '../../../utils/domain/valuesObject/Email.ValueObject.js'
+import { PasswordValueObject } from '../../../utils/domain/valuesObject/Password.ValueObject.js';
 
 export class UserToCreate {
 
@@ -15,6 +16,7 @@ export class UserToCreate {
   constructor(fullName, age, email, password) {
 
     this.emailValueObject = new EmailValueObject(email);
+    PasswordValueObject(password);
 
     this.validFullName(fullName)
     this.validAge(age)

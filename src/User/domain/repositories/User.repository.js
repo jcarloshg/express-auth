@@ -30,4 +30,5 @@ export class UserRepository {
   isThisEmailExist(email) {
     throw new AbstractMethodError('isThisEmailExist', 'UserRepository')
   }
+
 }

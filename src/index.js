@@ -1,8 +1,11 @@
 import express from 'express'
 import { PORT } from './config.js'
 
+// application
 import { CreateUserApplication } from './User/application/CreateUser.application.js'
-import { UserDBLocal } from './User/infrastructure/DBLocal/UserDBLocal.js'
+import { UserLoginApplication } from './User/application/UserLogin.application.js'
+// infrastructure
+import { UserRepositoryBDLocal } from './User/infrastructure/DBLocal/UserRepository.BDLocal.js'
 
 const app = express()
 app.use(express.json())
@@ -11,11 +14,18 @@ app.get('/', (req, res) => {
   res.send('Hello word')
 })
 
-app.post('/login', (req, res) => {
-  res.send('<h2>login</h2>')
+app.post('/login', async (req, res) => {
+
+  const userDBLocal = new UserRepositoryBDLocal();
+  const userLoginApplication = new UserLoginApplication(userDBLocal);
+  const response = await userLoginApplication.run({ ...req.body });
+
+  res.status(response.code).send(response);
+
 })
 
 app.post('/register', async (req, res) => {
+
   let data = {}
 
   try {
@@ -24,7 +34,7 @@ app.post('/register', async (req, res) => {
     res.status(400).send("bad request")
   }
 
-  const userDBLocal = new UserDBLocal();
+  const userDBLocal = new UserRepositoryBDLocal();
   const createUserApplication = new CreateUserApplication(userDBLocal);
   const response = await createUserApplication.run(data.fullName, data.age, data.email, data.password)
 

@@ -10,7 +10,7 @@ import { CustomResponse } from '../../../utils/domain/responses/CustomResponse.j
 // infrastructure
 import { UserPersistenceApi } from './configure.js'
 
-export class UserDBLocal extends UserRepository {
+export class UserRepositoryBDLocal extends UserRepository {
   /**
      *
      * @param {string} fullName
