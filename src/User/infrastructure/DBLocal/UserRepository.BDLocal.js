@@ -7,6 +7,8 @@ import { SALT_ROUNDS } from '../../../config.js'
 import { UserRepository } from '../../domain/repositories/User.repository.js'
 import { UserCreated } from '../../domain/schema/UserCreated.js'
 import { CustomResponse } from '../../../utils/domain/responses/CustomResponse.js'
+import { UserToLogin } from '../../domain/schema/UserToLogin.js'
+import { UserLogged } from '../../domain/schema/UserLogged.js'
 // infrastructure
 import { UserPersistenceApi } from './configure.js'
 
@@ -49,8 +51,34 @@ export class UserRepositoryBDLocal extends UserRepository {
   /**
    *
    * @param {UserToLogin} userToLogin
+   * @returns {Promise<CustomResponse>}
    */
-  login(userToLogin) {
+  async login(userToLogin) {
+
+    const MESSAGE_PASSWORD_INVALID = "The password is invalid.";
+    const MASSAGE_CREDENTIALS_VALID = "The credential are valid.";
+
+    const userOnDataBase = UserPersistenceApi.findOne({
+      email: userToLogin.object.email,
+    })
+
+    const isValid = await bcryp.compare(userToLogin.object.password, userOnDataBase.password)
+    if (isValid == false) return new CustomResponse(400, MESSAGE_PASSWORD_INVALID);
+
+    const userLogged = new UserLogged({
+      id: userOnDataBase._id,
+      fullName: userOnDataBase.fullName,
+      age: userOnDataBase.age,
+      email: userOnDataBase.email,
+    })
+
+    return new CustomResponse(
+      200,
+      MASSAGE_CREDENTIALS_VALID,
+      {
+        userLogged
+      }
+    );
 
   }
 

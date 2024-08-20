@@ -22,12 +22,18 @@ export class UserLoginApplication {
      */
     async run({ email, password }) {
 
-        const error = await UserToLogin.isValid({ email, password });
-        if (error) return error;
+        try {
 
-        const isThisEmailExist = this.#userRepository.isThisEmailExist(email);
+            const userToLogin = new UserToLogin({ email, password });
 
-        return new CustomResponse(400, "NOTHING", null);
+            const isThisEmailExist = this.#userRepository.isThisEmailExist(email);
+            if (isThisEmailExist == false) return new CustomResponse(404, `The email [${email}] not exists`, null);
+
+            return await this.#userRepository.login(userToLogin);
+
+        } catch (error) {
+            return new CustomResponse(400, error.message, null);
+        }
 
     }
 

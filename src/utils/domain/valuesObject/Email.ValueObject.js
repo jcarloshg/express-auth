@@ -2,30 +2,22 @@ import { PropertyValueError } from "../errors/PropertyValueError.js";
 
 export class EmailValueObject {
 
-    #rulesString = "The email must have '@' and numbers numbers.";
+    value
 
     /**
      *
      * @param {String} value
      */
     constructor(value) {
+
         this.value = value
-        this.isValid(value);
-    }
 
-    getValue() { this.value }
+        const RULES_STRING = "The email must have '@' and numbers.";
+        const MESSAGE_TO_ERROR = `${RULES_STRING} The value [${value}] is invalid.`
 
-    /**
-     *
-     * @param {String} value
-     */
-    isValid(value) {
-        if (typeof value !== "string") throw new PropertyValueError(this.#getMessageError());
-        if (value.includes('@') == false) throw new PropertyValueError(this.#getMessageError());
-    }
+        if (typeof value !== "string") throw new PropertyValueError(MESSAGE_TO_ERROR)
+        if (value.length < 8) throw new PropertyValueError(MESSAGE_TO_ERROR)
 
-    #getMessageError() {
-        return `${this.#rulesString} The value [${this.value}] is invalid`
     }
 
 }

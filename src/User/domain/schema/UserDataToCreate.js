@@ -5,6 +5,7 @@ import { PasswordValueObject } from '../../../utils/domain/valuesObject/Password
 export class UserToCreate {
 
   emailValueObject
+  #passwordValueObject
 
   /**
      *
@@ -16,7 +17,7 @@ export class UserToCreate {
   constructor(fullName, age, email, password) {
 
     this.emailValueObject = new EmailValueObject(email);
-    PasswordValueObject(password);
+    this.#passwordValueObject = new PasswordValueObject(password);
 
     this.validFullName(fullName)
     this.validAge(age)

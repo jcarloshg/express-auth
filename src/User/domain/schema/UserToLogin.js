@@ -4,24 +4,29 @@ import { PasswordValueObject } from "../../../utils/domain/valuesObject/Password
 
 export class UserToLogin {
 
+
+  #emailValueObject
+  #passwordValueObject
+
+
   /**
    *
    * @param {{email: String, password: Number}} param0
-   * @returns {Promise<CustomResponse> | null}
    */
-  static async isValid({ email, password }) {
+  constructor({ email, password }) {
+    this.#emailValueObject = new EmailValueObject(email);
+    this.#passwordValueObject = new PasswordValueObject(password);
+  }
 
-    try {
-
-      new EmailValueObject(email);
-      PasswordValueObject(password);
-
-    } catch (error) {
-
-      return new CustomResponse(400, error.message, null)
-
+  /**
+   *
+   * @returns {{email: String, password: Number}}
+   */
+  get object() {
+    return {
+      email: this.#emailValueObject.value,
+      password: this.#passwordValueObject.value,
     }
-
   }
 
 }
