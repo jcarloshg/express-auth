@@ -1,4 +1,4 @@
-import { PropertyValueError } from '../../../utils/domain/errors/PropertyValueError'
+import { PropertyValueError } from '../../../utils/domain/errors/PropertyValueError.js'
 
 export class UserToCreate {
   /**

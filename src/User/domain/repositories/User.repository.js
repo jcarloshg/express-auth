@@ -1,9 +1,7 @@
 // eslint-disable-next-line no-unused-vars
-import { UserToCreate } from '../schema/UserDataToCreate'
-// eslint-disable-next-line no-unused-vars
-import { UserToLogin } from '../schema/UserToLogin'
+import { UserToLogin } from '../schema/UserToLogin.js'
 
-import { AbstractMethodError } from '../../../utils/domain/errors/AbstractMethodError'
+import { AbstractMethodError } from '../../../utils/domain/errors/AbstractMethodError.js'
 
 export class UserRepository {
   /**

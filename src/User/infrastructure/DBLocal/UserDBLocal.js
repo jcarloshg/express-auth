@@ -1,11 +1,11 @@
 import crypto from 'node:crypto'
 
 // domain
-import { UserRepository } from '../../domain/repositories/User.repository'
-import { UserCreated } from '../../domain/schema/UserCreated'
-import { UserToCreate } from '../../domain/schema/UserDataToCreate'
+import { UserRepository } from '../../domain/repositories/User.repository.js'
+import { UserCreated } from '../../domain/schema/UserCreated.js'
+import { UserToCreate } from '../../domain/schema/UserDataToCreate.js'
 // infrastructure
-import { UserPersistenceApi } from './configure'
+import { UserPersistenceApi } from './configure.js'
 
 export class UserDBLocal extends UserRepository {
   /**

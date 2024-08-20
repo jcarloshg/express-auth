@@ -1,6 +1,6 @@
 // CreateUser.application.js
 
-import { UserDBLocal } from '../../infrastructure/DBLocal/UserDBLocal'
+import { UserDBLocal } from '../../infrastructure/DBLocal/UserDBLocal.js'
 
 export class CreateUserApplication {
   /**
@@ -12,8 +12,7 @@ export class CreateUserApplication {
        * @returns {string} id
        */
   static run (fullName, age, email, password) {
-    UserDBLocal.create(fullName, age, email, password)
-    // const userCreated = UserDBLocal.create(fullName, age, email, password)
-    // return { id: userCreated.id }
+    const userCreated = UserDBLocal.create(fullName, age, email, password)
+    return { id: userCreated.id }
   }
 }
