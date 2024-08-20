@@ -3,10 +3,9 @@ import crypto from 'node:crypto'
 // domain
 import { UserRepository } from '../../domain/repositories/User.repository.js'
 import { UserCreated } from '../../domain/schema/UserCreated.js'
-import { UserToCreate } from '../../domain/schema/UserDataToCreate.js'
+import { CustomResponse } from '../../../utils/domain/responses/CustomResponse.js'
 // infrastructure
 import { UserPersistenceApi } from './configure.js'
-import { CustomResponse } from '../../../utils/domain/responses/CustomResponse.js'
 
 export class UserDBLocal extends UserRepository {
   /**
@@ -17,19 +16,9 @@ export class UserDBLocal extends UserRepository {
      * @param {string} password
      * @returns {CustomResponse}
      */
-  static create(fullName, age, email, password) {
+  create(fullName, age, email, password) {
 
-    try {
-      const userToCreate = new UserToCreate(fullName, age, email, password)
-    } catch (error) {
-      const customResponse = new CustomResponse(400, error.message, null)
-      return customResponse
-    }
-
-    const userFound = UserPersistenceApi.findOne({ email })
-    if (userFound) return new CustomResponse(400, `The email [${email}] already exists`, null)
-
-    // create the id && add to data base
+    // create the id
     const id = crypto.randomUUID()
     const data = {
       _id: id,
@@ -38,6 +27,8 @@ export class UserDBLocal extends UserRepository {
       email,
       password
     }
+
+    // add to data base
     UserPersistenceApi.create(data).save()
 
     const customResponse = new CustomResponse(
@@ -46,14 +37,28 @@ export class UserDBLocal extends UserRepository {
         user: new UserCreated(id, fullName, age, email)
       }
     )
+
     return customResponse;
+
   }
 
   /**
    *
    * @param {UserToLogin} userToLogin
    */
-  static login(userToLogin) {
+  login(userToLogin) {
 
   }
+
+
+  /**
+   *
+   * @param {string} email
+   * @returns {boolean}
+   */
+  isThisEmailExist(email) {
+    const userFound = UserPersistenceApi.findOne({ email })
+    return userFound ? true : false;
+  }
+
 }

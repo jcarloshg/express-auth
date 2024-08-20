@@ -10,7 +10,7 @@ export class UserRepository {
      * @param {number} age
      * @param {string} email
      */
-  static create (fullName, age, email) {
+  create(fullName, age, email) {
     throw new AbstractMethodError('create', 'UserRepository')
   }
 
@@ -18,7 +18,16 @@ export class UserRepository {
    *
    * @param {UserToLogin} userToLogin
    */
-  static login (userToLogin) {
+  login(userToLogin) {
     throw new AbstractMethodError('login', 'UserRepository')
+  }
+
+  /**
+   *
+   * @param {string} email
+   * @returns {boolean}
+   */
+  isThisEmailExist(email) {
+    throw new AbstractMethodError('isThisEmailExist', 'UserRepository')
   }
 }
