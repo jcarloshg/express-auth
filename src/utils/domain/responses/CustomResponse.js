@@ -10,4 +10,13 @@ export class CustomResponse {
     this.message = message
     this.data = data
   }
+
+  /**
+   *
+   * @param {{code:Number, message:String, data:any}} param0
+   * @returns {CustomResponse}
+   */
+  static create ({ code, message, data }) {
+    return new CustomResponse(code, message, data)
+  }
 }
