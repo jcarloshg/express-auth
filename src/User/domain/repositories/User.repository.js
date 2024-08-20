@@ -10,7 +10,7 @@ export class UserRepository {
      * @param {number} age
      * @param {string} email
      */
-  create(fullName, age, email) {
+  async create(fullName, age, email) {
     throw new AbstractMethodError('create', 'UserRepository')
   }
 

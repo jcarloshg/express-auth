@@ -15,7 +15,7 @@ app.post('/login', (req, res) => {
   res.send('<h2>login</h2>')
 })
 
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
   let data = {}
 
   try {
@@ -26,9 +26,10 @@ app.post('/register', (req, res) => {
 
   const userDBLocal = new UserDBLocal();
   const createUserApplication = new CreateUserApplication(userDBLocal);
-  const response = createUserApplication.run(data.fullName, data.age, data.email, data.password)
+  const response = await createUserApplication.run(data.fullName, data.age, data.email, data.password)
 
   res.status(response.code).send(response)
+
 })
 
 app.post('/logout', () => { })

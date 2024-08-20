@@ -16,14 +16,14 @@ export class CreateUserApplication {
   }
 
   /**
-       *
-       * @param {string} fullName
-       * @param {number} age
-       * @param {string} email
-       * @param {string} password
-     * @returns {CustomResponse}
-       */
-  run(fullName, age, email, password) {
+   *
+   * @param {string} fullName
+   * @param {number} age
+   * @param {string} email
+   * @param {string} password
+   * @returns {Promise<CustomResponse>}
+  */
+  async run(fullName, age, email, password) {
 
     // ============================================================
     // valid data
@@ -49,8 +49,9 @@ export class CreateUserApplication {
     // ============================================================
     // save user
     // ============================================================
-    const response = this.userRepository.create(fullName, age, email, password)
+    const response = await this.userRepository.create(fullName, age, email, password)
 
     return response;
   }
+
 }

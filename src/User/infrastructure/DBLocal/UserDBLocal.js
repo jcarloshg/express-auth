@@ -19,11 +19,11 @@ export class UserDBLocal extends UserRepository {
      * @param {string} password
      * @returns {CustomResponse}
      */
-  create(fullName, age, email, password) {
+  async create(fullName, age, email, password) {
 
     // create the id
     const id = crypto.randomUUID() // Generate a class to get the ID
-    const hashPassword = bcryp.hashSync(password, SALT_ROUNDS);
+    const hashPassword = await bcryp.hash(password, SALT_ROUNDS);
     const data = {
       _id: id,
       fullName,
