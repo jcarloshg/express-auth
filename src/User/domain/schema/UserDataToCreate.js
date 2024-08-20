@@ -1,6 +1,10 @@
 import { PropertyValueError } from '../../../utils/domain/errors/PropertyValueError.js'
+import { EmailValueObject } from '../../../utils/domain/valuesObject/Email.ValueObject.js'
 
 export class UserToCreate {
+
+  emailValueObject
+
   /**
      *
      * @param {string} fullName
@@ -8,7 +12,10 @@ export class UserToCreate {
      * @param {string} email
      * @param {string} password
      */
-  constructor (fullName, age, email, password) {
+  constructor(fullName, age, email, password) {
+
+    this.emailValueObject = new EmailValueObject(email);
+
     this.validFullName(fullName)
     this.validAge(age)
     this.validEmail(email)
@@ -24,10 +31,9 @@ export class UserToCreate {
    * @param {string} fullName
    * @returns {boolean}
    */
-  validFullName (fullName) {
-    if (fullName === '') {
-      throw new PropertyValueError(fullName)
-    }
+  validFullName(fullName) {
+    if (typeof fullName !== "string") throw new PropertyValueError(fullName)
+    if (fullName === '') throw new PropertyValueError(fullName)
     return true
   }
 
@@ -36,7 +42,7 @@ export class UserToCreate {
    * @param {number} age
    * @returns {boolean}
    */
-  validAge (age) {
+  validAge(age) {
     if (age < 18) {
       throw new PropertyValueError(age)
     }
@@ -48,7 +54,7 @@ export class UserToCreate {
    * @param {string} email
    * @returns {boolean}
    */
-  validEmail (email) {
+  validEmail(email) {
     if (email === '') {
       throw new PropertyValueError(email)
     }

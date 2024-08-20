@@ -1,10 +1,10 @@
 export class PropertyValueError extends Error {
   /**
    *
-   * @param {any} value
+   * @param {any} message
    */
-  constructor (value) {
-    super(`The value [${value}] is invalid`)
+  constructor(message) {
+    super(message)
     this.name = 'PropertyValueError'
   }
 }
