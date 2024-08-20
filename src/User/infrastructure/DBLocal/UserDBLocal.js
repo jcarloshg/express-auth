@@ -1,4 +1,7 @@
 import crypto from 'node:crypto'
+import bcryp from 'bcrypt'
+
+import { SALT_ROUNDS } from '../../../config.js'
 
 // domain
 import { UserRepository } from '../../domain/repositories/User.repository.js'
@@ -19,13 +22,14 @@ export class UserDBLocal extends UserRepository {
   create(fullName, age, email, password) {
 
     // create the id
-    const id = crypto.randomUUID()
+    const id = crypto.randomUUID() // Generate a class to get the ID
+    const hashPassword = bcryp.hashSync(password, SALT_ROUNDS);
     const data = {
       _id: id,
       fullName,
       age,
       email,
-      password
+      password: hashPassword
     }
 
     // add to data base

@@ -1,8 +1,8 @@
 
 // Domain
-import { UserToCreate } from '../schema/UserDataToCreate.js';
-import { CustomResponse } from '../../../utils/domain/responses/CustomResponse.js'
-import { UserRepository } from '../repositories/User.repository.js';
+import { UserToCreate } from '../domain/schema/UserDataToCreate.js';
+import { CustomResponse } from '../../utils/domain/responses/CustomResponse.js'
+import { UserRepository } from '../domain/repositories/User.repository.js';
 
 
 export class CreateUserApplication {

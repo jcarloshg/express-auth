@@ -1,7 +1,7 @@
 import express from 'express'
 import { PORT } from './config.js'
 
-import { CreateUserApplication } from './User/domain/application/CreateUser.application.js'
+import { CreateUserApplication } from './User/application/CreateUser.application.js'
 import { UserDBLocal } from './User/infrastructure/DBLocal/UserDBLocal.js'
 
 const app = express()
@@ -21,7 +21,7 @@ app.post('/register', (req, res) => {
   try {
     data = req.body
   } catch (error) {
-    res.status(400).send('bad request')
+    res.status(400).send("bad request")
   }
 
   const userDBLocal = new UserDBLocal();
