@@ -15,24 +15,20 @@ app.post('/login', (req, res) => {
 
 app.post('/register', (req, res) => {
   let data = {}
+
   try {
     data = req.body
   } catch (error) {
     res.status(400).send('bad request')
   }
 
-  const response = CreateUserApplication.run(
-    data.fullName,
-    data.age,
-    data.email,
-    data.password
-  )
+  const response = CreateUserApplication.run(data.fullName, data.age, data.email, data.password)
 
-  res.status(200).send({ message: response })
+  res.status(response.code).send(response)
 })
 
-app.post('/logout', () => {})
-app.get('/protected', () => {})
+app.post('/logout', () => { })
+app.get('/protected', () => { })
 
 app.listen(PORT, () => {
   console.log(`App is running but the port: ${PORT}`)

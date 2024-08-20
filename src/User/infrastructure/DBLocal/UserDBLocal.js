@@ -6,6 +6,7 @@ import { UserCreated } from '../../domain/schema/UserCreated.js'
 import { UserToCreate } from '../../domain/schema/UserDataToCreate.js'
 // infrastructure
 import { UserPersistenceApi } from './configure.js'
+import { CustomResponse } from '../../../utils/domain/responses/CustomResponse.js'
 
 export class UserDBLocal extends UserRepository {
   /**
@@ -14,23 +15,22 @@ export class UserDBLocal extends UserRepository {
      * @param {number} age
      * @param {string} email
      * @param {string} password
+     * @returns {CustomResponse}
      */
-  static create (fullName, age, email, password) {
-    console.log({ fullName, age, email, password })
+  static create(fullName, age, email, password) {
 
     try {
       const userToCreate = new UserToCreate(fullName, age, email, password)
     } catch (error) {
-      return error.name
+      const customResponse = new CustomResponse(400, error.message, null)
+      return customResponse
     }
 
     const userFound = UserPersistenceApi.findOne({ email })
-    if (userFound) throw new Error(`the email ${email} already exists`)
+    if (userFound) return new CustomResponse(400, `The email [${email}] already exists`, null)
 
-    // create the id
-
+    // create the id && add to data base
     const id = crypto.randomUUID()
-
     const data = {
       _id: id,
       fullName,
@@ -38,19 +38,22 @@ export class UserDBLocal extends UserRepository {
       email,
       password
     }
-
-    // add to data base
     UserPersistenceApi.create(data).save()
 
-    const userCreated = new UserCreated(id, fullName, age, email)
-    return userCreated
+    const customResponse = new CustomResponse(
+      200, 'user created correctly',
+      {
+        user: new UserCreated(id, fullName, age, email)
+      }
+    )
+    return customResponse;
   }
 
   /**
    *
    * @param {UserToLogin} userToLogin
    */
-  static login (userToLogin) {
+  static login(userToLogin) {
 
   }
 }

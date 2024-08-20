@@ -1,6 +1,7 @@
 // CreateUser.application.js
 
 import { UserDBLocal } from '../../infrastructure/DBLocal/UserDBLocal.js'
+import { CustomResponse } from '../../../utils/domain/responses/CustomResponse.js'
 
 export class CreateUserApplication {
   /**
@@ -9,10 +10,9 @@ export class CreateUserApplication {
        * @param {number} age
        * @param {string} email
        * @param {string} password
-       * @returns {string} id
+     * @returns {CustomResponse}
        */
-  static run (fullName, age, email, password) {
-    const userCreated = UserDBLocal.create(fullName, age, email, password)
-    return { id: userCreated.id }
+  static run(fullName, age, email, password) {
+    return UserDBLocal.create(fullName, age, email, password)
   }
 }
